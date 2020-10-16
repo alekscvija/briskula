@@ -9,6 +9,7 @@ public class SetActive : MonoBehaviour
     public GameObject difficulty2;
 
     public GameObject difficulty3;
+
     // Start is called before the first frame update
     void Start()
     {

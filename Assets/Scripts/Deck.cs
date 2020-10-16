@@ -6,6 +6,7 @@ using System;
 
 
 
+
  public class Deck : MonoBehaviour {
  public Deck d;
 public bool startFaceUp=false;
@@ -85,6 +86,7 @@ public List<Card> InstantiateCards(){
 foreach (string s in Suit){
   for (int i=0;i<Value.Length;i++){
     GameObject cardObj =Instantiate(prefabCard);
+
     iTween.MoveTo(cardObj, new Vector3(-29, 1, 0), 1);
     iTween.MoveTo(cardObj, new Vector3(-30, 0, 0), 1);
     Card c =cardObj.GetComponent<Card>();

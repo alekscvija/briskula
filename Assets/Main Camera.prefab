@@ -1,0 +1,260 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8253200068553617214
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8253200068553617205}
+  - component: {fileID: 8253200068553617202}
+  - component: {fileID: 8253200068553617203}
+  - component: {fileID: 8253200068553617200}
+  - component: {fileID: 8253200068553617207}
+  - component: {fileID: 8253200068553617206}
+  - component: {fileID: 8253200068553617204}
+  - component: {fileID: 8253200068553617201}
+  m_Layer: 0
+  m_Name: Main Camera
+  m_TagString: MainCamera
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8253200068553617205
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8253200068553617214}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 100}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!20 &8253200068553617202
+Camera:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8253200068553617214}
+  m_Enabled: 1
+  serializedVersion: 2
+  m_ClearFlags: 2
+  m_BackGroundColor: {r: 0.3185338, g: 0.6415094, b: 0.14827341, a: 0}
+  m_projectionMatrixMode: 1
+  m_SensorSize: {x: 36, y: 24}
+  m_LensShift: {x: 0, y: 0}
+  m_GateFitMode: 2
+  m_FocalLength: 50
+  m_NormalizedViewPortRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 26.991467
+  orthographic: 0
+  orthographic size: 5
+  m_Depth: -1
+  m_CullingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RenderingPath: -1
+  m_TargetTexture: {fileID: 0}
+  m_TargetDisplay: 0
+  m_TargetEye: 3
+  m_HDR: 1
+  m_AllowMSAA: 1
+  m_AllowDynamicResolution: 0
+  m_ForceIntoRT: 0
+  m_OcclusionCulling: 1
+  m_StereoConvergence: 10
+  m_StereoSeparation: 0.022
+--- !u!81 &8253200068553617203
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8253200068553617214}
+  m_Enabled: 0
+--- !u!114 &8253200068553617200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8253200068553617214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 327cbe03e11684347b77a84fdb5b62c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  startFaceUp: 0
+  cardAnchor: {fileID: 0}
+  OneBastoni: {fileID: 21300000, guid: 7ab99892da931465f92e3ab5bd6131e4, type: 3}
+  OneCoppa: {fileID: 21300000, guid: 8fa27fce85ffe45e18cab8dd8188b697, type: 3}
+  OneDanari: {fileID: 21300000, guid: f1f7a146e4fa1447baaecae8a8898973, type: 3}
+  OneSpade: {fileID: 21300000, guid: b4bed1cc9cc0847028918c86a6a1aa8c, type: 3}
+  TwoBastoni: {fileID: 21300000, guid: 0420ffb6220004b5f9c6490c5507ad15, type: 3}
+  TwoCoppe: {fileID: 21300000, guid: 89092fc1d56254942af764ecfd5e2415, type: 3}
+  TwoDanari: {fileID: 21300000, guid: 8ca9c9244225d4cdb971fa2e3f8b15f3, type: 3}
+  TwoSpade: {fileID: 21300000, guid: d29d1f41566164241b52ee344d472530, type: 3}
+  TriBastoni: {fileID: 21300000, guid: b9446e75396fd4de2951b0eb531439f0, type: 3}
+  TriCoppa: {fileID: 21300000, guid: e3ca1875b32034f2d99aa75ad1c86922, type: 3}
+  TriDanari: {fileID: 21300000, guid: 8fc710c2868224da0a8d8c976e480966, type: 3}
+  TriSpade: {fileID: 21300000, guid: ccb08cde4ce734b3eac41537cd7abc70, type: 3}
+  FourBastoni: {fileID: 21300000, guid: 7b21a77ea8aef475884141dd13a793aa, type: 3}
+  FourCoppa: {fileID: 21300000, guid: 79544756c5aef4191b1529b5b056bb03, type: 3}
+  FourDanari: {fileID: 21300000, guid: 128771ebb00f1420583db3e154b0cc86, type: 3}
+  FourSpade: {fileID: 21300000, guid: 24aab6c5f0bf64dbca70dccbe3fad5bb, type: 3}
+  FiveBastoni: {fileID: 21300000, guid: f809b5e4221aa4949b249d283ada84ad, type: 3}
+  FiveCoppa: {fileID: 21300000, guid: f768229cd2290404e85a398634eff760, type: 3}
+  FiveDanari: {fileID: 21300000, guid: 62921eb1b0a854bf4b2cf5c1e5075a0f, type: 3}
+  FiveSpade: {fileID: 21300000, guid: aa21a96bd934c4a4c817bddcc6b6a11c, type: 3}
+  SixBastoni: {fileID: 21300000, guid: c90bd200a948744fc86c8db1900bdcae, type: 3}
+  SixCoppa: {fileID: 21300000, guid: 8c64a16a3ad914bf8b91433b06185283, type: 3}
+  SixDanari: {fileID: 21300000, guid: f156c876ec08a4d2289b832eee0c4a30, type: 3}
+  SixSpade: {fileID: 21300000, guid: 98da34f9a2f254d44bbb7fd28dd91077, type: 3}
+  SevenBastoni: {fileID: 21300000, guid: 832719bf82857441a95e7d39f36697aa, type: 3}
+  SevenCoppa: {fileID: 21300000, guid: 68f92e5fc14dc4854bdf3d063fe8b3cf, type: 3}
+  SevenDanari: {fileID: 21300000, guid: 4ae92cc3a9c98492c89a1bc5b571149c, type: 3}
+  SevenSpade: {fileID: 21300000, guid: 693e0fc1fc3554912a5c849e3a938a0d, type: 3}
+  ElevenBastoni: {fileID: 21300000, guid: 4bc1f499e02c940e0bce22c73de1d4f7, type: 3}
+  ElevenCoppa: {fileID: 21300000, guid: 2ad0da88e44ee4cf8866900dedc6c1bd, type: 3}
+  ElevenDanari: {fileID: 21300000, guid: ac85a1a88835e4ccd9f3848c51a92b59, type: 3}
+  ElevenSpade: {fileID: 21300000, guid: 7b321660b34b145c49c4403b30c6fa05, type: 3}
+  TwelveBastoni: {fileID: 21300000, guid: aa98de568539c451081fcdbdbbf701e5, type: 3}
+  TwelveCoppa: {fileID: 21300000, guid: bc79aeb7bab584d15adc790f7c08cbf3, type: 3}
+  TwelveDanari: {fileID: 21300000, guid: 4b197b42acd96422487a5baa5745e3f3, type: 3}
+  TwelveSpade: {fileID: 21300000, guid: 82e7fc022ed214a269272bc05ccd7471, type: 3}
+  ThirteenBastoni: {fileID: 21300000, guid: 6e1117663dc644186a0ff08ea040eeac, type: 3}
+  ThirteenCoppa: {fileID: 21300000, guid: 5dd56bc88d9214334a99f60c8bb31b8c, type: 3}
+  ThirteenDanari: {fileID: 21300000, guid: 9bbeb5d9e11dc4265ab39283e5a14947, type: 3}
+  ThirteenSpade: {fileID: 21300000, guid: fcae3222908bf422091aa80e96e11b10, type: 3}
+  cardBack: {fileID: 21300000, guid: 4d41394be1da14ba987095c6e5bedcd4, type: 3}
+  prefabCardMP: {fileID: 5566189874074567447, guid: fdf33b74e848540ed8dcfe5918ae4f08,
+    type: 3}
+  prefabSprite: {fileID: 1875365183878717747, guid: 084e19b80f0ae444aaf84e992ef990b8,
+    type: 3}
+  cardsList: []
+  CardObjects: []
+--- !u!114 &8253200068553617207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8253200068553617214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c7424c1070fad4ba2a7a96b02fbeb4bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OnClientConnected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClientDataReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClientError:
+    m_PersistentCalls:
+      m_Calls: []
+  OnClientDisconnected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnServerConnected:
+    m_PersistentCalls:
+      m_Calls: []
+  OnServerDataReceived:
+    m_PersistentCalls:
+      m_Calls: []
+  OnServerError:
+    m_PersistentCalls:
+      m_Calls: []
+  OnServerDisconnected:
+    m_PersistentCalls:
+      m_Calls: []
+  port: 7777
+  NoDelay: 1
+  serverMaxMessageSize: 16384
+  serverMaxReceivesPerTick: 10000
+  clientMaxMessageSize: 16384
+  clientMaxReceivesPerTick: 1000
+--- !u!114 &8253200068553617206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8253200068553617214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3cc0ca8df601444693dc51205a1ed2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  deck: {fileID: 0}
+  playingSpace: []
+  IsGameReady: 0
+  IsGameOver: 0
+  rotOfCam:
+  - {x: 0, y: 0, z: 0, w: 0}
+  - {x: 0, y: 0, z: 0, w: 0}
+  - {x: 0, y: 0, z: 0, w: 0}
+  - {x: 0, y: 0, z: 0, w: 0}
+  winnerText: {fileID: 0}
+  playerScore: {fileID: 0}
+  AIScore: {fileID: 0}
+  players: []
+  MinimumPlayersForGame: 2
+  rotOfDeck: {x: 0.70710677, y: 0, z: 0, w: 0.70710677}
+--- !u!114 &8253200068553617204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8253200068553617214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
+  hasSpawned: 0
+--- !u!114 &8253200068553617201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8253200068553617214}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f74aedd71d9a4f55b3ce499326d45fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clientAuthority: 0
+  localPositionSensitivity: 0.01
+  localRotationSensitivity: 0.01
+  localScaleSensitivity: 0.01

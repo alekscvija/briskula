@@ -666,6 +666,8 @@ MonoBehaviour:
   cardArr: []
   pointDeck: []
   PWinLastRnd: 0
+  host: 0
+  playerNo: 0
   playerSlot:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
@@ -689,7 +691,10 @@ MonoBehaviour:
   briskula: {fileID: 0}
   playingSpace: []
   exitButton: {fileID: 365565390}
+  newSetButton: {fileID: 0}
   winnerText: {fileID: 167416332}
+  playerScore: {fileID: 0}
+  AIScore: {fileID: 0}
 --- !u!224 &534669910
 RectTransform:
   m_ObjectHideFlags: 0

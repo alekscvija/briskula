@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEngine.Assertions.Must;
 
 
+
 public class Briscola : MonoBehaviour
 {
   static public Briscola B;
@@ -29,6 +30,8 @@ public class Briscola : MonoBehaviour
   
   
   public Text winnerText;
+  public Text playerScore;
+  public Text AIScore;
   
 
   Quaternion rotOfDeck=Quaternion.Euler(90.0f,0.0f,0.0f);
@@ -43,6 +46,8 @@ public class Briscola : MonoBehaviour
       Deck.Shuffle(ref deck.cardsList);
 
       winnerText = GameObject.Find("winnerText").GetComponent<Text>();
+      playerScore = GameObject.Find("playerScore").GetComponent<Text>();
+      AIScore = GameObject.Find("aiScore").GetComponent<Text>();
       
       briskula=deck.cardsList[deck.cardsList.Count-1];
       briskula.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
@@ -83,21 +88,9 @@ public class Briscola : MonoBehaviour
         case eCardState.playerset:
           if (playingSpace.Count == 0 & player1.PWinLastRnd == true)
           {
-            
-              player1.tookLast = true;
-              // removeP.Add(card);
-              //cardSlotP.Add(player1.cardArr.FindIndex(a => a == card));
-              card.state = eCardState.playedbyPlayer;
-              playingSpace.Add(card);
-              
-              //player1.cardArr.Remove(card);
-              iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-              // card.transform.position = new Vector3(20, 10, 0);
-              SpriteRenderer SR = card.gameObject.GetComponent<SpriteRenderer>();
-              SR.sortingOrder = playingSpace.Count;
-              player1.cardArr.Remove(card);
-              
-            }
+            PlayerMove(card);
+
+          }
           else if(playingSpace.Count==0 & player1.PWinLastRnd==false){
             AIplays(ai.compSet,playingSpace);
           }
@@ -106,28 +99,7 @@ public class Briscola : MonoBehaviour
           {
             if (playingSpace.Count < 4)
             {
-              if (playingSpace.Count < 3)
-              {
-                player1.tookLast = true;
-              }
-              else
-              {
-                player1.tookLast = false;
-              }
-
-             // removeP.Add(card);
-//              cardSlotP.Add(player1.cardArr.FindIndex(a => a == card));
-              card.state = eCardState.playedbyPlayer;
-              playingSpace.Add(card);
-
-
-              //player1.cardArr.Remove(card);
-              iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-             // card.transform.position = new Vector3(20, 10, 0);
-              SpriteRenderer SR = card.gameObject.GetComponent<SpriteRenderer>();
-              SR.sortingOrder = playingSpace.Count;
-              player1.cardArr.Remove(card);
-
+              PlayerMove(card);
 
             }
             
@@ -225,11 +197,56 @@ public class Briscola : MonoBehaviour
       if (playingSpace.Count == 4 & deck.cardsList.Count == 0 & player1.cardArr.Count==0 & ai.compSet.Count==0)
       {
         WonRound(playingSpace);
-        bool winner=calcWinner(player1.pointDeck, ai.pointDeck1);
+        bool winner=calcWinner(ai.pointDeck1, player1.pointDeck);
         GameOver(winner);
 
       }
 
+    }
+
+    public void PlayerMove(Card card)
+    {
+     
+        if (playingSpace.Count < 3)
+        {
+          player1.tookLast = true;
+        }
+        else
+        {
+          player1.tookLast = false;
+        }
+
+        // removeP.Add(card);
+//              cardSlotP.Add(player1.cardArr.FindIndex(a => a == card));
+        card.state = eCardState.playedbyPlayer;
+        playingSpace.Add(card);
+
+
+        //player1.cardArr.Remove(card);
+        iTween.MoveTo(card.gameObject, new Vector3(20, 10, 0), 1);
+        // card.transform.position = new Vector3(20, 10, 0);
+        SpriteRenderer SR = card.gameObject.GetComponent<SpriteRenderer>();
+        SR.sortingOrder = playingSpace.Count;
+        player1.cardArr.Remove(card);
+
+      
+    }
+
+    public void AIMove(Card card,List<Card> playedCards)
+    {
+      playedCards.Add(card);
+//            cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
+      //removeAI.Add(card);
+      card.state=eCardState.playedbyAI;
+      iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
+
+      //card.transform.position=new Vector3(20,10,0);
+      card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
+      card.faceUp=true;
+      SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
+      SR.sortingOrder=playingSpace.Count;
+      player1.tookLast=false;
+      ai.compSet.Remove(card);
     }
 
     public void WonRound(List<Card> playedCards){
@@ -278,6 +295,7 @@ public class Briscola : MonoBehaviour
           }
            c.state = eCardState.playerdeck;
            c.faceUp=false;
+           playerScore.text = "Score:" + player1.pointDeck.Sum(a => a.pointsVal);
          }
 
          
@@ -293,6 +311,7 @@ public class Briscola : MonoBehaviour
            c.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);}
            c.faceUp=false;
            c.state = eCardState.AIdeck;
+           AIScore.text = "Score:" + ai.pointDeck1.Sum(a => a.pointsVal);
 
          }
          
@@ -428,6 +447,7 @@ public class Briscola : MonoBehaviour
       exitButton.SetActive(true);
         Invoke("GoToScene",10);
       }
+
     public void exitScene()
     {
       Application.Quit();
@@ -445,19 +465,7 @@ public class Briscola : MonoBehaviour
           if (player1.PWinLastRnd == false)
           {
             Card card = aiSet.Aggregate((i1, i2) => i1.pointsVal < i2.pointsVal ? i1 : i2);
-            playedCards.Add(card);
-//            cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-           //removeAI.Add(card);
-            card.state=eCardState.playedbyAI;
-            iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-            //card.transform.position=new Vector3(20,10,0);
-            card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-            card.faceUp=true;
-            SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-            SR.sortingOrder=playingSpace.Count;
-            player1.tookLast=false;
-            aiSet.Remove(card);
+            AIMove(card,playedCards);
 
 
           }
@@ -473,19 +481,7 @@ public class Briscola : MonoBehaviour
               if (aiSet.Exists(a => string.Equals(a.Suit, briskula.Suit)))
               {
                 Card card =aiSet.Find(a => string.Equals(a.Suit, briskula.Suit));
-                playedCards.Add(card);
-//                cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-                //removeAI.Add(card);
-                card.state=eCardState.playedbyAI;
-                iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-                //card.transform.position=new Vector3(20,10,0);
-                card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-                card.faceUp=true;
-                SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-                SR.sortingOrder=playingSpace.Count;
-                player1.tookLast=false;
-                aiSet.Remove(card);
+                AIMove(card,playedCards);
 
 
               }
@@ -496,39 +492,14 @@ public class Briscola : MonoBehaviour
 
                   Card card =aiSet.Find(a =>
                     string.Equals(a.Suit, playedCard.Suit) & a.pointsVal > playedCard.pointsVal);
-                  playedCards.Add(card);
-//                  cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-                 //removeAI.Add(card);
-                  card.state=eCardState.playedbyAI;
-                  iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-                  //card.transform.position=new Vector3(20,10,0);
-                  card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-                  card.faceUp=true;
-                  SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-                  SR.sortingOrder=playingSpace.Count;
-                  player1.tookLast=false;
-                  aiSet.Remove(card);
+                  AIMove(card,playedCards);
 
 
                 }
                 else
                 {
                   Card card = aiSet.Aggregate((i1, i2) => i1.pointsVal < i2.pointsVal ? i1 : i2);
-                  playedCards.Add(card);
-//                  cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-               //  removeAI.Add(card);
-                  card.state=eCardState.playedbyAI;
-                  iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-                  //card.transform.position=new Vector3(20,10,0);
-                  card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-                  card.faceUp=true;
-                  SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-                  SR.sortingOrder=playingSpace.Count;
-                  player1.tookLast=false;
-                  aiSet.Remove(card);
-
+                  AIMove(card,playedCards);
 
 
                 }
@@ -540,38 +511,13 @@ public class Briscola : MonoBehaviour
               if (aiSet.Exists(a => string.Equals(a.Suit, briskula.Suit) & a.pointsVal > briskula.pointsVal))
               {
                 Card card=aiSet.Find(a => string.Equals(a.Suit, briskula.Suit) & a.pointsVal > briskula.pointsVal);
-                playedCards.Add(card);
-//                cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-               // removeAI.Add(card);
-                card.state=eCardState.playedbyAI;
-                iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-                //card.transform.position=new Vector3(20,10,0);
-                card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-                card.faceUp=true;
-                SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-                SR.sortingOrder=playingSpace.Count;
-                player1.tookLast=false;
-                aiSet.Remove(card);
-
+                AIMove(card,playedCards);
 
               }
               else
               {
                 Card card=aiSet.Aggregate((i1,i2) => i1.pointsVal < i2.pointsVal ? i1 : i2);
-                playedCards.Add(card);
-//                cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-             //  removeAI.Add(card);
-                card.state=eCardState.playedbyAI;
-                iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-               // card.transform.position=new Vector3(20,10,0);
-                card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-                card.faceUp=true;
-                SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-                SR.sortingOrder=playingSpace.Count;
-                player1.tookLast=false;
-                aiSet.Remove(card);
+                AIMove(card,playedCards);
 
 
               }
@@ -580,19 +526,7 @@ public class Briscola : MonoBehaviour
             else if (playedCard.pointsVal < 2)
             {
               Card card=aiSet.Aggregate((i1,i2) => i1.pointsVal < i2.pointsVal ? i1 : i2);
-              playedCards.Add(card);
-//              cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-             //removeAI.Add(card);
-              card.state=eCardState.playedbyAI;
-              iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-              //card.transform.position=new Vector3(20,10,0);
-              card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-              card.faceUp=true;
-              SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-              SR.sortingOrder=playingSpace.Count;
-              player1.tookLast=false;
-              aiSet.Remove(card);
+              AIMove(card,playedCards);
 
 
 
@@ -613,40 +547,12 @@ public class Briscola : MonoBehaviour
               {
                 Card card=
                   aiSet.Find(a => string.Equals(a.Suit, briskula.Suit) & a.pointsVal > playedCard.pointsVal);
-                playedCards.Add(card);
-//                cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-               //removeAI.Add(card);
-                card.state=eCardState.playedbyAI;
-                iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-                //card.transform.position=new Vector3(20,10,0);
-                card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-                card.faceUp=true;
-                SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-                SR.sortingOrder=playingSpace.Count;
-                player1.tookLast=false;
-                aiSet.Remove(card);
-
-
+                AIMove(card,playedCards);
               }
               else
               {
                 Card card = aiSet.Aggregate((i1,i2) => i1.pointsVal < i2.pointsVal ? i1 : i2);
-                playedCards.Add(card);
-//                cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-              //  removeAI.Add(card);
-                card.state=eCardState.playedbyAI;
-                iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-                //card.transform.position=new Vector3(20,10,0);
-                card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-                card.faceUp=true;
-                SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-                SR.sortingOrder=playingSpace.Count;
-                player1.tookLast=false;
-                aiSet.Remove(card);
-
-
+                AIMove(card,playedCards);
               }
             }
             else if(string.Equals(playedCard.Suit,playedCards[0].Suit) & playedCards[0].pointsVal<playedCard.pointsVal)
@@ -654,91 +560,30 @@ public class Briscola : MonoBehaviour
               if (aiSet.Exists(a=>string.Equals(a.Suit,briskula.Suit)))
               {
                 Card card=aiSet.Find(a => string.Equals(a.Suit, briskula.Suit));
-                playedCards.Add(card);
-//                cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-               // removeAI.Add(card);
-                card.state=eCardState.playedbyAI;
-                iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-                //card.transform.position=new Vector3(20,10,0);
-                card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-                card.faceUp=true;
-                SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-                SR.sortingOrder=playingSpace.Count;
-                player1.tookLast=false;
-                aiSet.Remove(card);
-
-
+                AIMove(card,playedCards);
               }
               else if (aiSet.Exists(a => string.Equals(a.Suit, playedCard.Suit) & a.pointsVal > playedCard.pointsVal))
               {
                 Card card=aiSet.Find(a => string.Equals(a.Suit, playedCard.Suit) & a.pointsVal > playedCard.pointsVal);
-                playedCards.Add(card);
-//                cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-                //removeAI.Add(card);
-                card.state=eCardState.playedbyAI;
-                iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-                //card.transform.position=new Vector3(20,10,0);
-                card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-                card.faceUp=true;
-                SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-                SR.sortingOrder=playingSpace.Count;
-                player1.tookLast=false;
-                aiSet.Remove(card);
-
-
-
+                AIMove(card,playedCards);
               }
               else
               {
                 
                 Card card =aiSet.Aggregate((i1,i2) => i1.pointsVal < i2.pointsVal ? i1 : i2);
-                playedCards.Add(card);
-//                cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-                //removeAI.Add(card);
-                card.state=eCardState.playedbyAI;
-                iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-                //card.transform.position=new Vector3(20,10,0);
-                card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-                card.faceUp=true;
-                SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-                SR.sortingOrder=playingSpace.Count;
-                player1.tookLast=false;
-                aiSet.Remove(card);
-
-
+                AIMove(card,playedCards);
               }
               
             }
             else
             {
               Card card=aiSet.Aggregate((i1,i2) => i1.pointsVal < i2.pointsVal ? i1 : i2);
-              playedCards.Add(card);
-//              cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-             // removeAI.Add(card);
-              card.state=eCardState.playedbyAI;
-              iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-             // card.transform.position=new Vector3(20,10,0);
-              card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-              card.faceUp=true;
-              SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-              SR.sortingOrder=playingSpace.Count;
-              player1.tookLast=false;
-              aiSet.Remove(card);
-
-
+              AIMove(card,playedCards);
             }
             
             
-
-
-
           }
           
-
           break;
         
         
@@ -753,40 +598,12 @@ public class Briscola : MonoBehaviour
                   (playedCards[2].pointsVal < playedCard.pointsVal))
               {
                 Card card=aiSet.Aggregate((i1, i2) => i1.pointsVal > i2.pointsVal ? i1 : i2);
-                playedCards.Add(card);
-//                cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-               // removeAI.Add(card);
-                card.state=eCardState.playedbyAI;
-                iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-                //card.transform.position=new Vector3(20,10,0);
-                card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-                card.faceUp=true;
-                SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-                SR.sortingOrder=playingSpace.Count;
-                player1.tookLast=false;
-                aiSet.Remove(card);
-
-
+                AIMove(card,playedCards);
               }
               else
               {
                 Card card=aiSet.Aggregate((i1, i2) => i1.pointsVal < i2.pointsVal ? i1 : i2);
-                playedCards.Add(card);
-//                cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-                //  removeAI.Add(card);
-                card.state=eCardState.playedbyAI;
-                iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-               // card.transform.position=new Vector3(20,10,0);
-                card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-                card.faceUp=true;
-                SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-                SR.sortingOrder=playingSpace.Count;
-                player1.tookLast=false;
-                aiSet.Remove(card);
-
-
+                AIMove(card,playedCards);
               }
               
             }
@@ -796,81 +613,26 @@ public class Briscola : MonoBehaviour
                   playedCards[2].pointsVal < playedCard.pointsVal)
               {
                 Card card=aiSet.Aggregate((i1, i2) => i1.pointsVal > i2.pointsVal ? i1 : i2);
-                playedCards.Add(card);
-//                cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-               // removeAI.Add(card);
-                card.state=eCardState.playedbyAI;
-                iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-               // card.transform.position=new Vector3(20,10,0);
-                card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-                card.faceUp=true;
-                SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-                SR.sortingOrder=playingSpace.Count;
-                player1.tookLast=false;
-                aiSet.Remove(card);
-
-
+                AIMove(card,playedCards);
               }
               else if(aiSet.Exists(a=> string.Equals(a.Suit,briskula.Suit)))
               {
                 Card card = aiSet.Find(a => string.Equals(a.Suit, briskula.Suit));
-                playedCards.Add(card);
-//              cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-                //removeAI.Add(card);
-                card.state=eCardState.playedbyAI;
-                iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-                //card.transform.position=new Vector3(20,10,0);
-                card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-                card.faceUp=true;
-                SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-                SR.sortingOrder=playingSpace.Count;
-                player1.tookLast=false;
-                aiSet.Remove(card);
-                
+                AIMove(card,playedCards);
               }
               else
               {
                 Card card=aiSet.Aggregate((i1, i2) => i1.pointsVal < i2.pointsVal ? i1 : i2);
-                playedCards.Add(card);
-//                cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-                //  removeAI.Add(card);
-                card.state=eCardState.playedbyAI;
-                iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-                //card.transform.position=new Vector3(20,10,0);
-                card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-                card.faceUp=true;
-                SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-                SR.sortingOrder=playingSpace.Count;
-                player1.tookLast=false;
-                aiSet.Remove(card);
-                
+                AIMove(card,playedCards);
               }
             }
             else 
             {
               Card card=aiSet.Aggregate((i1, i2) => i1.pointsVal < i2.pointsVal ? i1 : i2);
-              playedCards.Add(card);
-//              cardSlotAI.Add(aiSet.FindIndex(a =>a==card ));
-              //removeAI.Add(card);
-              card.state=eCardState.playedbyAI;
-              iTween.MoveTo(card.gameObject,new Vector3(20,10,0) ,1);
-
-              //card.transform.position=new Vector3(20,10,0);
-              card.transform.Rotate(0.0f,0.0f,90.0f,Space.Self);
-              card.faceUp=true;
-              SpriteRenderer SR=card.gameObject.GetComponent<SpriteRenderer>();
-              SR.sortingOrder=playingSpace.Count;
-              player1.tookLast=false;
-              aiSet.Remove(card);
-
-
+              AIMove(card,playedCards);
             }
-            
+           
           }
-         
 
           break;
         
@@ -878,7 +640,7 @@ public class Briscola : MonoBehaviour
           if (playingSpace.Count == 4 & deck.cardsList.Count == 0 & player1.cardArr.Count==0 & ai.compSet.Count==0)
           {
             WonRound(playingSpace);
-            bool winner=calcWinner(player1.pointDeck, ai.pointDeck1);
+            bool winner=calcWinner(ai.pointDeck1, player1.pointDeck);
             GameOver(winner);
 
           }
@@ -888,12 +650,6 @@ public class Briscola : MonoBehaviour
       }
 
        
-
-      
-      
-        
-          
-      
     }
     
    

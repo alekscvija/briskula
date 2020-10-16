@@ -9,6 +9,8 @@ public class Player : MonoBehaviour
 
    public List<Card> pointDeck=new List<Card>();
    public bool PWinLastRnd= false;
+	public bool host;
+	public int playerNo;
    private bool tooklast=false;
    public bool tookLast{
      get{return (tooklast);}
